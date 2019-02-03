@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+  
+  *, *:before, *:after { 
+    box-sizing: inherit; 
+  }
+
+  div {
+    width: 100%;
+    padding: 100px;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background: mistyrose;
+  }
+
+  .three {
+    background: coral;
+  }
+</style>
+<button>Click me</button>
+<script>
+
+const divs = document.querySelectorAll('div');
+const btn = document.querySelector('button');
+
+// function logText(e) {
+//   console.log(this.classList.value);
+//   // console.log(this);
+// }
+
+function logText(e) {
+  console.log(this.classList.value);
+  // e.stopPropagation(); //stop bubbling up
+}
+
+// divs.forEach(div => div.addEventListener('click', logText));
+//firts: capture the elements(where the event is listening to), beginning from body, then trigger elem while bubbling up
+
+// divs.forEach(div => div.addEventListener('click', logText, { capture: true}));
+//with capture on is running culpture down, not bubble up
+
+//by default capture is false
+divs.forEach(div => div.addEventListener('click', logText, { 
+  capture: false,
+  once: true 
+}));
+//option once allow to unbind the event, so action occurs just once
+
+btn.addEventListener('click', () => {
+  console.log("I'm clicked!");
+}, {
+  once: true
+});
+
+</script>
+</body>
+</html>
